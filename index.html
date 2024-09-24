@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flip the Coin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>     
+        /* Стили для центрирования содержимого */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #E6E6FA; /* Цвет фона страницы */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-family: 'Berkshire Swash', cursive;
+            font-size: 57px;
+            margin-top: -100px;
+            margin-bottom: 150px;
+            text-align: center;
+        }
+
+        /* Стиль для монеты */
+        .coin {
+            position: relative;
+            width: 175px;
+            height: 175px;
+            border-radius: 50%;
+            background-color: gold;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            transition: transform 2s ease-in-out;
+            transform-style: preserve-3d;
+            margin-bottom: 50px; /* Отступ между монетой и кнопкой */
+        }
+
+        /* Лицевая и оборотная стороны монеты */
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            font-family: 'Berkshire Swash', cursive;
+            color: black;
+            backface-visibility: hidden; /* Скрывает обратную сторону при вращении */
+        }
+
+        /* Орел и Решка */
+        .coin-heads {
+            transform: rotateY(0deg); /* Орёл */
+        }
+
+        .coin-tails {
+            transform: rotateY(180deg); /* Решка */
+        }
+
+        /* Кнопка для подбрасывания монеты */
+        #roll-button {
+            font-family: 'Berkshire Swash', cursive;
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+            width: 100px;
+            margin-top: 50px; /* Отодвигаем кнопку вниз */
+        }
+
+        .footer-text {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #000;
+            opacity: 0.5;
+            font-family: 'Berkshire Swash', cursive;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Flip the Coin </h1>
+
+        <!-- Контейнер для монеты -->
+        <div class="coin" id="coin">
+            <!-- Орёл -->
+            <div class="coin-face coin-heads">Heads</div>
+            <!-- Решка -->
+            <div class="coin-face coin-tails">Tails</div>
+        </div>
+
+        <!-- Кнопка для подбрасывания монеты -->
+        <div>
+            <button id="roll-button"> Flip </button>
+        </div>
+    </div>
+
+    <script>
+        // Переменная для отслеживания текущего угла вращения
+        let currentRotation = 0;
+
+        function flipCoin() {
+            const coin = document.getElementById('coin');
+
+            // Генерируем случайное число: 0 (Орёл) или 1 (Решка)
+            const randomFlip = Math.random() < 0.5 ? 0 : 1;
+
+            // Количество полных оборотов для плавного вращения (360 * X), где X — количество оборотов
+            const spins = 360 * 10; // Минимум 10 оборотов
+
+            // Вращение на 0 градусов для "Орла" или 180 градусов для "Решки"
+            const finalRotation = randomFlip === 0 ? 0 : 180;
+
+            // Добавляем новое вращение к текущему
+            currentRotation += spins + finalRotation;
+
+            // Применяем вращение с анимацией
+            coin.style.transition = 'transform 2s ease-in-out';
+            coin.style.transform = `rotateY(${currentRotation}deg)`;
+        }
+
+        document.getElementById('roll-button').addEventListener('click', flipCoin);
+    </script>
+
+    <div class="footer-text">by Alexandra</div>
+</body>
+</html>
